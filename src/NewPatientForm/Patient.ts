@@ -5,7 +5,7 @@ import { Admittor } from './Admittor'
 export interface Patient {
   name: string
   gender: Gender
-  birthdate: Date
+  birthdate: string
   ssid: string
   occupation: string
   nationality: string

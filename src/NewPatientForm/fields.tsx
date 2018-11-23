@@ -53,7 +53,7 @@ export const LegalStatus = field(
 export const AdmissionReasons = ({ value, onChange }: FieldProps) => (
   <FormGroup>
     <Label for="admissionReasons">
-      وذلك للعلاة بالمنشأة لديكم للأسباب المبينة ادناه
+      وذلك للعلاج بالمنشأة لديكم للأسباب المبينة ادناه
     </Label>
     <textarea
       id="admissionReasons"
