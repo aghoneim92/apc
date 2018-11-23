@@ -27,26 +27,26 @@ export const Priors = ({
       <FormGroup check inline className="InputField" id="illness">
         <Label check for="yesIllness">
           نعم
+          <Input
+            id="yesIllness"
+            name="illness"
+            type="radio"
+            checked={illness}
+            onChange={createOnChange(setIllness)(true)}
+          />
         </Label>
 
-        <Input
-          id="yesIllness"
-          name="illness"
-          type="radio"
-          checked={illness}
-          onChange={createOnChange(setIllness)(true)}
-        />
         <FormGroup check inline className="RadioChoice">
           <Label check for="noIllness">
             لا
+            <Input
+              id="noIllness"
+              name="illness"
+              type="radio"
+              checked={!illness}
+              onChange={createOnChange(setIllness)(false)}
+            />
           </Label>
-          <Input
-            id="noIllness"
-            name="illness"
-            type="radio"
-            checked={!illness}
-            onChange={createOnChange(setIllness)(false)}
-          />
         </FormGroup>
       </FormGroup>
     </FormGroup>

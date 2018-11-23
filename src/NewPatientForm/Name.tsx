@@ -9,16 +9,22 @@ export interface NameProps {
   gender: Gender
   value: string
   onChange(value: string): void
+  admittor?: boolean
 }
 
-export const Name = ({ gender, value, onChange }: NameProps) => {
+export const Name = ({
+  gender,
+  value,
+  onChange,
+  admittor = false,
+}: NameProps) => {
   const teh = gender === Gender.Female ? 'ة' : ''
   const title = `السيد${teh} `
   const placeholder = `فلان${teh} العلاني${teh}`
 
   return (
     <>
-      <Label htmlFor="name">{title}</Label>
+      <Label htmlFor="name">{`${admittor ? 'و اقر انا ' : ''}${title}`}</Label>
       <Input
         type="text"
         id="name"
@@ -26,6 +32,7 @@ export const Name = ({ gender, value, onChange }: NameProps) => {
         placeholder={placeholder}
         value={value}
         onChange={setValue(onChange)}
+        required
       />
     </>
   )

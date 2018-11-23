@@ -37,8 +37,8 @@ export const MaritalStatusInput = ({
   <FormGroup>
     <legend>الحالة الإجتماعية</legend>
     {labels.map(([maleLabel, femaleLabel], index) => (
-      <FormGroup check inline>
-        <Label key={index} check for={maleLabel}>
+      <FormGroup key={index} check inline>
+        <Label check for={maleLabel}>
           {gender === Gender.Male ? maleLabel : femaleLabel}
           <Input
             type="radio"
