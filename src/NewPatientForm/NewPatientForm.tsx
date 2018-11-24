@@ -46,13 +46,19 @@ interface Props {
   addPatient(patient: Patient): void
 }
 
-const samplePatient = JSON.parse(
-  '{"name":"Ahmed Ghoneim","birthdate":"٠١/٠١/١٩٩٢","gender":0,"ssid":"123","occupation":"asdf","nationality":"Egypt","maritalStatus":0,"address":"Fawzy Moaz","priorIllness":false,"priorHospitalized":false,"numHospitalized":1,"legalStatus":"123","admissionReasons":"asdf","admittor":{"name":"Ahmed Ghoneim","relation":"asdf","occupation":"asdf","ssid":"123","nationality":"Egypt","address":"Fawzy Moaz"}}',
-)
+// const samplePatient = JSON.parse(
+//   '{"name":"Ahmed Ghoneim","birthdate":"٠١/٠١/١٩٩٢","gender":0,"ssid":"123","occupation":"asdf","nationality":"Egypt","maritalStatus":0,"address":"Fawzy Moaz","priorIllness":false,"priorHospitalized":false,"numHospitalized":1,"legalStatus":"123","admissionReasons":"asdf","admittor":{"name":"Ahmed Ghoneim","relation":"asdf","occupation":"asdf","ssid":"123","nationality":"Egypt","address":"Fawzy Moaz"}}',
+// )
+
+const genId = (length: number = 6) =>
+  Math.floor(Math.random() * Math.pow(10, length))
+    .toLocaleString('ar-EG')
+    .replace(/٬/g, '')
 
 export default class NewPatientForm extends Component<Props, State> {
   state = {
-    patient: samplePatient || {
+    patient: {
+      id: genId(),
       name: '',
       birthdate: '٠١/٠١/١٩٩٢',
       gender: Gender.Male,

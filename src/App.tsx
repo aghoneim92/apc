@@ -22,7 +22,7 @@ const patientService = new LocalStoragePatientService()
 
 class App extends Component<RouteComponentProps, State> {
   state = {
-    patients: [],
+    patients: patientService.loadAll(),
   }
 
   addPatient = (patient: Patient) => {

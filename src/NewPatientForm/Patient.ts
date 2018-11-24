@@ -3,6 +3,7 @@ import { MaritalStatus } from './MaritalStatus'
 import { Admittor } from './Admittor'
 
 export interface Patient {
+  id: string
   name: string
   gender: Gender
   birthdate: string
