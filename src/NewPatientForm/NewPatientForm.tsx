@@ -46,9 +46,13 @@ interface Props {
   addPatient(patient: Patient): void
 }
 
+const samplePatient = JSON.parse(
+  '{"name":"Ahmed Ghoneim","birthdate":"٠١/٠١/١٩٩٢","gender":0,"ssid":"123","occupation":"asdf","nationality":"Egypt","maritalStatus":0,"address":"Fawzy Moaz","priorIllness":false,"priorHospitalized":false,"numHospitalized":1,"legalStatus":"123","admissionReasons":"asdf","admittor":{"name":"Ahmed Ghoneim","relation":"asdf","occupation":"asdf","ssid":"123","nationality":"Egypt","address":"Fawzy Moaz"}}',
+)
+
 export default class NewPatientForm extends Component<Props, State> {
   state = {
-    patient: {
+    patient: samplePatient || {
       name: '',
       birthdate: '٠١/٠١/١٩٩٢',
       gender: Gender.Male,
@@ -180,22 +184,27 @@ export default class NewPatientForm extends Component<Props, State> {
             />
             <AdmittorInput value={admittor} onChange={setAdmittor} />
             بصحة البيانات المحررة اعلاه بمعرفتي و تحت مسؤوليتي.
-            <br />
-            <br />
-            <h3 style={{ textAlign: 'center' }}>
-              وتفضلوا بقبول فائق الإحترام،،،
-            </h3>
-            <div className="ActionRow">
-              <Button color="primary" size="lg" type="submit">
-                حفظ
-              </Button>
-            </div>
-            <br />
-            <br />
-            <br />
             <div className="Footer">
+              <br />
+              <br />
+              <h3 style={{ textAlign: 'center' }}>
+                وتفضلوا بقبول فائق الإحترام،،،
+              </h3>
+              <br />
+              <br />
+              <br />
               <span className="Signature">توقيع طالب الدخول</span>
               <span className="TodaysDate">التاريخ: {today}</span>
+            </div>
+            <div className="ActionRow">
+              <Button
+                className="noprint"
+                color="primary"
+                size="lg"
+                type="submit"
+              >
+                حفظ و طباعة
+              </Button>
             </div>
           </Form>
         </Container>

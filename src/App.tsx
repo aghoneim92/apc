@@ -12,10 +12,13 @@ import AllPatients from './AllPatients/AllPatients'
 import logo from './logo.png'
 
 import './App.css'
+import { LocalStoragePatientService } from './PatientService'
 
 interface State {
   patients: Patient[]
 }
+
+const patientService = new LocalStoragePatientService()
 
 class App extends Component<RouteComponentProps, State> {
   state = {
@@ -23,7 +26,13 @@ class App extends Component<RouteComponentProps, State> {
   }
 
   addPatient = (patient: Patient) => {
-    this.setState(({ patients }) => ({ patients: patients.concat([patient]) }))
+    this.setState(
+      ({ patients }) => ({ patients: patients.concat([patient]) }),
+      () => {
+        patientService.save(patient)
+        print()
+      },
+    )
   }
 
   renderNewPatientForm = () => <NewPatientForm addPatient={this.addPatient} />
@@ -53,12 +62,14 @@ class App extends Component<RouteComponentProps, State> {
     } = this
     return (
       <div className="App">
-        <Navbar light expand="md">
+        <Navbar className="noprint" light expand="md">
           <NavbarBrand href="/">
-            <img className="App-logo" src={logo} /> مستشفى دار الإسكندرية
-            للإستشفاء
+            <img className="App-logo" src={logo} />
           </NavbarBrand>
-          <Nav className="ml-auto" navbar>
+          <div className="push-1">
+            <div>مستشفى دار الإسكندرية للإستشفاء</div>
+          </div>
+          <Nav className="ml-auto noprint" navbar>
             <NavItem>
               <NavLink
                 href="/newPatient"
@@ -79,6 +90,15 @@ class App extends Component<RouteComponentProps, State> {
             </NavItem>
           </Nav>
         </Navbar>
+
+        <header className="PrintHeader">
+          <img className="App-logo" src={logo} />
+          <div className="push-1">
+            <div>مستشفى دار الإسكندرية للإستشفاء</div>
+            <div>١٤ شارع المصحة - ونجت</div>
+            <div>ت: ٥٢٤٤٣٥٣-٥٤٥٤١٠٣ فاكس: ٥٢٤٤١٤٩</div>
+          </div>
+        </header>
 
         <main className="App-container">
           <Route path="/" exact render={renderNewPatientForm} />

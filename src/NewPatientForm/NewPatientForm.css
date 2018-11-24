@@ -13,9 +13,15 @@
 }
 
 .Footer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  display: none;
+}
+
+@media print {
+  .Footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }
 
 .Signature {

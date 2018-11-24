@@ -28,3 +28,36 @@
   display: flex;
   justify-content: center;
 } */
+
+.push-1 {
+  margin-inline-start: 1em;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.print-only {
+  display: none;
+}
+
+.PrintHeader {
+  padding: 2em;
+  display: none;
+}
+
+@media print {
+  .noprint {
+    display: none;
+  }
+  .print-only {
+    display: block;
+  }
+  .PrintHeader {
+    display: flex;
+  }
+}
