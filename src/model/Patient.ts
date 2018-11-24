@@ -1,21 +1,18 @@
-import { Gender } from './Gender'
-import { MaritalStatus } from './MaritalStatus'
-import { Admittor } from './Admittor'
+import Gender from './Gender'
+import MaritalStatus from './MaritalStatus'
+import Admittor from './Admittor'
+import Contact from './Contact'
 
-export interface Patient {
+export default interface Patient extends Contact {
   id: string
-  name: string
   gender: Gender
   birthdate: string
-  ssid: string
-  occupation: string
-  nationality: string
   maritalStatus: MaritalStatus
-  address: string
   priorIllness: boolean
   priorHospitalized: boolean
   numHospitalized: number
   legalStatus: string
   admissionReasons: string
   admittor: 'self' | Admittor
+  dateOfEntry: string
 }

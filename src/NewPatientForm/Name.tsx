@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Label, Input } from 'reactstrap'
 
 import { setValue } from './fields'
-import { Gender } from './Gender'
+import Gender from '../model/Gender'
 
 export interface NameProps {
   gender: Gender

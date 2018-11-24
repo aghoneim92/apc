@@ -2,14 +2,8 @@ import * as React from 'react'
 
 import { FormGroup, Label, Input } from 'reactstrap'
 
-import { Gender } from './Gender'
-
-export enum MaritalStatus {
-  Single = 0,
-  Married,
-  Divorced,
-  Widowed,
-}
+import Gender from '../model/Gender'
+import MaritalStatus from '../model/MaritalStatus'
 
 const labels = [
   ['اعزب', 'عزباء'],

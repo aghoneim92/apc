@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { memoize } from './memoize'
+import { memoize } from '../memoize'
 import { FormGroup, Label, Input } from 'reactstrap'
 
 interface PriorsProps {

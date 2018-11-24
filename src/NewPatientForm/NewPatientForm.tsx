@@ -3,7 +3,7 @@ import { Component, FormEvent } from 'react'
 
 import { Form, FormGroup, Label, Input, Button, Container } from 'reactstrap'
 
-import { Gender, GenderInput } from './Gender'
+import { GenderInput } from './Gender'
 import { Birthdate } from './Birthdate'
 import { Name } from './Name'
 import {
@@ -14,14 +14,16 @@ import {
   LegalStatus,
   AdmissionReasons,
 } from './fields'
-import { MaritalStatus, MaritalStatusInput } from './MaritalStatus'
+import { MaritalStatusInput } from './MaritalStatus'
 import { Address } from './Address'
 import { Priors } from './Priors'
-import { Patient } from './Patient'
+import Patient from '../model/Patient'
 import { AdmittorInput } from './Admittor'
 
 import './NewPatientForm.css'
 import Header from './Header'
+import Gender from 'src/model/Gender'
+import MaritalStatus from 'src/model/MaritalStatus'
 
 interface State {
   patient: Patient
@@ -51,9 +53,9 @@ interface Props {
 // )
 
 const genId = (length: number = 6) =>
-  Math.floor(Math.random() * Math.pow(10, length))
-    .toLocaleString('ar-EG')
-    .replace(/٬/g, '')
+  Math.floor(Math.random() * Math.pow(10, length)).toLocaleString('ar-EG', {
+    useGrouping: false,
+  })
 
 export default class NewPatientForm extends Component<Props, State> {
   state = {
@@ -72,7 +74,9 @@ export default class NewPatientForm extends Component<Props, State> {
       numHospitalized: 1,
       legalStatus: '',
       admissionReasons: '',
+      phone: '',
       admittor: {
+        phone: '',
         name: '',
         relation: '',
         occupation: '',
@@ -80,6 +84,7 @@ export default class NewPatientForm extends Component<Props, State> {
         nationality: '',
         address: '',
       },
+      dateOfEntry: new Date().toLocaleDateString('ar-EG'),
     },
   }
 

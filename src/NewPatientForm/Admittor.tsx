@@ -1,18 +1,10 @@
 import * as React from 'react'
 import { FormGroup } from 'reactstrap'
-import { Gender } from './Gender'
+import Gender from '../model/Gender'
 import { Name } from './Name'
 import { field, Occupation, SSID, Nationality } from './fields'
 import { Address } from './Address'
-
-export interface Admittor {
-  name: string
-  relation: string
-  occupation: string
-  ssid: string
-  nationality: string
-  address: string
-}
+import Admittor from 'src/model/Admittor'
 
 type ChangeHandler = (value: Admittor) => void
 

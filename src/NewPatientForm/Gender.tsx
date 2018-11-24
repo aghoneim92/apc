@@ -2,12 +2,8 @@ import * as React from 'react'
 
 import { Label, Input, FormGroup } from 'reactstrap'
 
-import { memoize } from './memoize'
-
-export enum Gender {
-  Male,
-  Female,
-}
+import { memoize } from '../memoize'
+import Gender from 'src/model/Gender'
 
 export interface GenderProps {
   gender: Gender
