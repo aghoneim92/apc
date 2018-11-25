@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Component, FormEvent } from 'react'
 
+import { connect } from 'react-redux'
 import { Form, FormGroup, Label, Input, Button, Container } from 'reactstrap'
 
 import { GenderInput } from './Gender'
@@ -24,6 +25,10 @@ import './NewPatientForm.css'
 import Header from './Header'
 import Gender from 'src/model/Gender'
 import MaritalStatus from 'src/model/MaritalStatus'
+import Actions from 'src/actions'
+import Admission from 'src/model/Admission'
+import AdmissionLaw from 'src/model/AdmissionLaw'
+import AdmissionRequestPersistenceService from 'src/service/AdmissionRequestPersistenceService'
 
 interface State {
   patient: Patient
@@ -44,20 +49,20 @@ const NumHospitalized = ({
   </FormGroup>
 )
 
-interface Props {
-  addPatient(patient: Patient): void
+interface DispatchProps {
+  newAdmissionRequest(
+    admission: Admission,
+  ): {
+    type: string
+    payload: Admission
+  }
 }
-
-// const samplePatient = JSON.parse(
-//   '{"name":"Ahmed Ghoneim","birthdate":"٠١/٠١/١٩٩٢","gender":0,"ssid":"123","occupation":"asdf","nationality":"Egypt","maritalStatus":0,"address":"Fawzy Moaz","priorIllness":false,"priorHospitalized":false,"numHospitalized":1,"legalStatus":"123","admissionReasons":"asdf","admittor":{"name":"Ahmed Ghoneim","relation":"asdf","occupation":"asdf","ssid":"123","nationality":"Egypt","address":"Fawzy Moaz"}}',
-// )
-
 const genId = (length: number = 6) =>
   Math.floor(Math.random() * Math.pow(10, length)).toLocaleString('ar-EG', {
     useGrouping: false,
   })
 
-export default class NewPatientForm extends Component<Props, State> {
+class NewPatientForm extends Component<DispatchProps, State> {
   state = {
     patient: {
       id: genId(),
@@ -114,7 +119,12 @@ export default class NewPatientForm extends Component<Props, State> {
   addPatient = (e: FormEvent) => {
     e.preventDefault()
 
-    this.props.addPatient(this.state.patient)
+    const { patient } = this.state
+    const admission: Admission = { patient, law: AdmissionLaw.Ten }
+    this.props.newAdmissionRequest(admission)
+    AdmissionRequestPersistenceService.save(admission)
+
+    print()
   }
 
   render() {
@@ -223,3 +233,15 @@ export default class NewPatientForm extends Component<Props, State> {
     )
   }
 }
+
+const mapDispatchToProps: DispatchProps = {
+  newAdmissionRequest: (admission: Admission) => ({
+    type: Actions.NEW_ADMISSION_REQUEST,
+    payload: admission,
+  }),
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NewPatientForm)

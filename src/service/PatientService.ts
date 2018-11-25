@@ -1,7 +1,7 @@
 import Patient from '../model/Patient'
-import { LocalStorageCRUDService } from './CRUDService'
+import { LocalStorageService } from './PersistenceService'
 
-export class LocalStoragePatientService extends LocalStorageCRUDService<
+export class LocalStoragePatientService extends LocalStorageService<
   Patient
 > {
   key = 'patients'

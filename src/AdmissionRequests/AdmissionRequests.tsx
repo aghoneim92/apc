@@ -1,25 +1,34 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
+import { Button, Card, CardBody, CardText, CardTitle } from 'reactstrap'
 
-import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap'
-
+import Actions from 'src/actions'
 import Admission from 'src/model/Admission'
+import { RouteComponentProps } from 'react-router'
+import { History } from 'history'
 
 type StartHandler = (admission: Admission) => void
 
-interface Props {
-  requests: Admission[]
+interface Props extends RouteComponentProps {
+  admissionRequests: Admission[]
   startAdmission: StartHandler
 }
 
-const createStart = (startAdmission: StartHandler) => (
+const createStart = (startAdmission: StartHandler) => (history: History) => (
   admission: Admission,
-) => () => startAdmission(admission)
+) => () => {
+  history.push(`/startAdmission?patientId=${admission.patient.id}`)
+}
 
-const AdmissionRequests = ({ requests, startAdmission }: Props) => {
-  const start = createStart(startAdmission)
+const AdmissionRequests = ({
+  admissionRequests,
+  startAdmission,
+  history,
+}: Props) => {
+  const start = createStart(startAdmission)(history)
   return (
     <section>
-      {requests.map(request => {
+      {admissionRequests.map(request => {
         const {
           patient: { id, name, address },
         } = request
@@ -39,4 +48,21 @@ const AdmissionRequests = ({ requests, startAdmission }: Props) => {
   )
 }
 
-export default AdmissionRequests
+interface State {
+  admissionRequests: Admission[]
+}
+
+const mapStateToProps = ({ admissionRequests }: State) => ({
+  admissionRequests,
+})
+const mapDispatchToProps = {
+  startAdmission: (admission: Admission) => ({
+    type: Actions.START_ADMISSION,
+    payload: admission,
+  }),
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AdmissionRequests)
