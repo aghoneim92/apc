@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Label, Input, FormGroup, Col } from 'reactstrap'
 
 import Gender from '../model/Gender'
-import { setValue } from 'src/Components/field';
+import { setValue } from 'src/Components/field'
 
 export interface NameProps {
   gender: Gender
@@ -24,10 +24,10 @@ export const Name = ({
 
   return (
     <FormGroup row>
-      <Label className="Label" for="name" sm={2}>{`${
+      <Label className="Label" for="name" sm={admittor ? 3 : 2}>{`${
         admittor ? 'و اقر انا ' : ''
       }${title}`}</Label>
-      <Col sm={10}>
+      <Col sm={admittor ? 9 : 10}>
         <Input
           type="text"
           id="name"

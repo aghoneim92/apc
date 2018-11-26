@@ -1,7 +1,7 @@
 import * as React from 'react'
-
-import { Label, Input } from 'reactstrap'
-import { setValue } from 'src/Components/field';
+import { Input, Label, Col } from 'reactstrap'
+import FormGroup from 'reactstrap/lib/FormGroup'
+import { setValue } from 'src/Components/field'
 
 export interface BirthdateProps {
   birthdate: string
@@ -9,13 +9,17 @@ export interface BirthdateProps {
 }
 
 export const Birthdate = ({ birthdate, onChange }: BirthdateProps) => (
-  <section>
-    <Label htmlFor="birthdate">تاريخ الميلاد</Label>
-    <Input
-      id="birthdate"
-      type="text"
-      value={birthdate}
-      onChange={setValue(onChange)}
-    />
-  </section>
+  <FormGroup row>
+    <Label sm={2} htmlFor="birthdate">
+      تاريخ الميلاد
+    </Label>
+    <Col sm={10}>
+      <Input
+        id="birthdate"
+        type="text"
+        value={birthdate}
+        onChange={setValue(onChange)}
+      />
+    </Col>
+  </FormGroup>
 )

@@ -3,12 +3,13 @@ import * as React from 'react'
 import { Label, FormGroup } from 'reactstrap'
 import field, { FieldProps, setValue } from 'src/Components/field'
 
-export const SSID = field('ssid', 'الرقم القومي / جواز السفر')
+export const SSID = field('ssid', 'الرقم القومي / جواز السفر', 5)
 export const Occupation = field('occupation', 'المهنة')
 export const Nationality = field('nationality', 'الجنسية')
 export const LegalStatus = field(
   'legalStatus',
   'الاهلية القانونية للمطلوب دخوله',
+  6,
 )
 export const PhoneNumber = field('phoneNumber', 'رقم التليفون')
 
