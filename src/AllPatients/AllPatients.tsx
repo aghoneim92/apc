@@ -1,24 +1,36 @@
 import * as React from 'react'
-import Patient from '../model/Patient'
+import { connect } from 'react-redux'
+import Card from 'reactstrap/lib/Card'
+import CardBody from 'reactstrap/lib/CardBody'
+import CardText from 'reactstrap/lib/CardText'
+import CardTitle from 'reactstrap/lib/CardTitle'
+import Admission from 'src/model/Admission'
+import State from 'src/model/State'
 
-interface Props {
-  patients: Patient[]
+interface StateProps {
+  admissions: Admission[]
 }
 
-const AllPatients = ({ patients }: Props) => (
+const AllPatients = ({ admissions }: StateProps) => (
   <section>
-    {patients.map(({ id, name, dateOfEntry, address }) => (
-      <div key={id}>
-        <div>{name}</div>
-        <div>رقم القيد: {id}</div>
-        <div>رقم الغرفة: ٥ تاريخ الدخول: {dateOfEntry}</div>
-        <div>العنوان: {address}</div>
-        <div>مادة الدخول</div>
-        <div>تليفون</div>
-        <div>الاستشاري</div>
-      </div>
-    ))}
+    {admissions.map(
+      ({ patient: { id, name, dateOfEntry, address }, law, doctorName }) => (
+        <Card key={id}>
+          <CardBody>
+            <CardTitle>{name}</CardTitle>
+            <CardText>رقم القيد : {id}</CardText>
+            <CardText>رقم الغرفة: ٥ تاريخ الدخول : {dateOfEntry}</CardText>
+            <CardText>العنوان : {address}</CardText>
+            <CardText>مادة الدخول : {law.toLocaleString('ar-EG')}</CardText>
+            <CardText>تليفون</CardText>
+            <CardText>الاستشاري : {doctorName}</CardText>
+          </CardBody>
+        </Card>
+      ),
+    )}
   </section>
 )
 
-export default AllPatients
+const mapStateToProps = ({ admissions }: State): StateProps => ({ admissions })
+
+export default connect(mapStateToProps)(AllPatients)

@@ -2,9 +2,10 @@ import * as React from 'react'
 import { FormGroup } from 'reactstrap'
 import Gender from '../model/Gender'
 import { Name } from './Name'
-import { field, Occupation, SSID, Nationality } from './fields'
+import { Occupation, SSID, Nationality } from './fields'
 import { Address } from './Address'
 import Admittor from 'src/model/Admittor'
+import field from 'src/Components/field';
 
 type ChangeHandler = (value: Admittor) => void
 

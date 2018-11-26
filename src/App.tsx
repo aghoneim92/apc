@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Component, MouseEvent } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
-import { NavBar, NavbarItem } from './NavBar'
-import PrintHeader from './PrintHeader'
+import { NavBar, NavbarItem } from './Components/NavBar'
+import PrintHeader from './Components/PrintHeader'
 import Routes from './Routes'
 
 import './App.css'

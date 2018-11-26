@@ -11,9 +11,9 @@ import {
   SSID,
   Occupation,
   Nationality,
-  setValue,
   LegalStatus,
   AdmissionReasons,
+  PhoneNumber,
 } from './fields'
 import { MaritalStatusInput } from './MaritalStatus'
 import { Address } from './Address'
@@ -29,6 +29,9 @@ import Actions from 'src/actions'
 import Admission from 'src/model/Admission'
 import AdmissionLaw from 'src/model/AdmissionLaw'
 import AdmissionRequestPersistenceService from 'src/service/AdmissionRequestPersistenceService'
+import { setValue } from 'src/Components/field'
+import { AdmissionMethod, PersonInvolved } from 'src/model/Report'
+import range from 'ramda/es/range'
 
 interface State {
   patient: Patient
@@ -61,6 +64,41 @@ const genId = (length: number = 6) =>
   Math.floor(Math.random() * Math.pow(10, length)).toLocaleString('ar-EG', {
     useGrouping: false,
   })
+
+const threeEmptyPeople: PersonInvolved[] = range(0, 3).map(() => ({
+  name: '',
+  relation: '',
+}))
+
+const createAdmission = (patient: Patient): Admission => ({
+  patient,
+  law: AdmissionLaw.Ten,
+  diagnosis: '',
+  doctorName: '',
+  initReport: {
+    strongSymptoms: '',
+    mentalCheck: '',
+    dangerSigns: '',
+    imminentDanger: '',
+    patientAgrees: true,
+    needsECT: false,
+    admissionMethod: AdmissionMethod.Normal,
+    peopleNotified: {
+      family: false,
+      hospitalManager: false,
+      socialServicesOffice: false,
+      nationalCommittee: false,
+    },
+    quickEntry: {
+      reasons: '',
+      peopleInvolved: threeEmptyPeople,
+    },
+    nationalCommittee: {
+      informDate: new Date().toLocaleDateString('ar-EG'),
+      id: '',
+    },
+  },
+})
 
 class NewPatientForm extends Component<DispatchProps, State> {
   state = {
@@ -115,12 +153,14 @@ class NewPatientForm extends Component<DispatchProps, State> {
   setLegalStatus = this.setField('legalStatus')
   setAdmissionReasons = this.setField('admissionReasons')
   setAdmittor = this.setField('admittor')
+  setPhone = this.setField('phone')
 
   addPatient = (e: FormEvent) => {
     e.preventDefault()
 
     const { patient } = this.state
-    const admission: Admission = { patient, law: AdmissionLaw.Ten }
+    const admission = createAdmission(patient)
+
     this.props.newAdmissionRequest(admission)
     AdmissionRequestPersistenceService.save(admission)
 
@@ -143,6 +183,7 @@ class NewPatientForm extends Component<DispatchProps, State> {
       setLegalStatus,
       setAdmissionReasons,
       setAdmittor,
+      setPhone,
       addPatient,
       state: {
         patient: {
@@ -160,6 +201,7 @@ class NewPatientForm extends Component<DispatchProps, State> {
           legalStatus,
           admissionReasons,
           admittor,
+          phone,
         },
       },
     } = this
@@ -170,7 +212,7 @@ class NewPatientForm extends Component<DispatchProps, State> {
       <Container>
         <Header />
         <Container className="NewPatient">
-          <Form className="NewPatientForm" onSubmit={addPatient}>
+          <Form className="Form" onSubmit={addPatient}>
             <Intro />
             <FormGroup>
               <Name gender={gender} value={name} onChange={setName} />
@@ -186,6 +228,7 @@ class NewPatientForm extends Component<DispatchProps, State> {
               onChange={setMaritalStatus}
             />
             <Address value={address} onChange={setAddress} />
+            <PhoneNumber value={phone} onChange={setPhone} />
             <Priors
               illness={priorIllness}
               hospital={priorHospitalized}

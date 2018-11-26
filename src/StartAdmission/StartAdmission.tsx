@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Component } from 'react'
-import { Form } from 'reactstrap'
+import { Form, Button } from 'reactstrap'
 
 import Admission from 'src/model/Admission'
 import AdmissionLaw from 'src/model/AdmissionLaw'
@@ -9,6 +9,10 @@ import { connect } from 'react-redux'
 import State from 'src/model/State'
 import Actions from 'src/actions'
 import { RouteComponentProps } from 'react-router'
+import Diagnosis from './Diagnosis'
+import ReportInput from './ReportInput'
+import Report from 'src/model/Report'
+import AdmissionPeristenceService from 'src/service/AdmissionPersistenceService'
 
 const AdmissionDate = () => (
   <div>تاريخ الدخول : {new Date().toLocaleDateString('ar-EG')}</div>
@@ -23,6 +27,13 @@ interface DispatchProps {
     admission: Admission,
   ): {
     type: Actions.UPDATE_ADMISSION
+    payload: Admission
+  }
+
+  admitPatient(
+    admission: Admission,
+  ): {
+    type: Actions.ADMIT_PATIENT
     payload: Admission
   }
 }
@@ -41,10 +52,43 @@ class StartAdmission extends Component<Props> {
     }
   }
 
+  changeDiagnosis = (diagnosis: string) => {
+    const { changeAdmission, currentAdmission } = this.props
+
+    if (currentAdmission) {
+      changeAdmission({
+        ...currentAdmission,
+        diagnosis,
+      })
+    }
+  }
+
+  changeReport = (report: Report) => {
+    const { changeAdmission, currentAdmission } = this.props
+
+    if (currentAdmission) {
+      changeAdmission({
+        ...currentAdmission,
+        initReport: report,
+      })
+    }
+  }
+
+  doAdmit = () => {
+    const { currentAdmission } = this.props
+    if (currentAdmission) {
+      AdmissionPeristenceService.save(currentAdmission)
+      this.props.admitPatient(currentAdmission)
+    }
+  }
+
   render() {
     const {
       props: { currentAdmission },
       changeAdmissionLaw,
+      changeDiagnosis,
+      changeReport,
+      doAdmit,
     } = this
 
     if (!currentAdmission) {
@@ -54,13 +98,18 @@ class StartAdmission extends Component<Props> {
     const {
       law,
       patient: { name },
+      diagnosis,
+      initReport,
     } = currentAdmission
 
     return (
-      <Form>
-        {name}
+      <Form className="Form">
+        <h2>{name}</h2>
         <AdmissionDate />
         <Law value={law} onChange={changeAdmissionLaw} />
+        <Diagnosis value={diagnosis} onChange={changeDiagnosis} />
+        <ReportInput value={initReport} onChange={changeReport} />
+        <Button onClick={doAdmit}>تسجيل دخول المريض</Button>
       </Form>
     )
   }
@@ -88,6 +137,10 @@ const mapStateToProps = (
 const mapDispatchToProps: DispatchProps = {
   changeAdmission: admission => ({
     type: Actions.UPDATE_ADMISSION,
+    payload: admission,
+  }),
+  admitPatient: admission => ({
+    type: Actions.ADMIT_PATIENT,
     payload: admission,
   }),
 }

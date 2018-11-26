@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { Label, Input } from 'reactstrap'
-import { setValue } from './fields'
+import { setValue } from 'src/Components/field';
 
 export interface BirthdateProps {
   birthdate: string

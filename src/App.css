@@ -23,11 +23,11 @@
 .App-logo {
   height: 5em;
 }
-/* 
+
 .App-container {
   display: flex;
   justify-content: center;
-} */
+}
 
 .push-1 {
   margin-inline-start: 1em;
@@ -60,4 +60,13 @@
   .PrintHeader {
     display: flex;
   }
+}
+
+.Form {
+  text-align: start;
+  padding: 2em;
+  padding-top: 0;
+  min-width: 50%;
+  max-width: 700px;
+  font-size: 1.5em;
 }

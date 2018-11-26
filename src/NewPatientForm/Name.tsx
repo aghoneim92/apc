@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import { Label, Input } from 'reactstrap'
+import { Label, Input, FormGroup, Col } from 'reactstrap'
 
-import { setValue } from './fields'
 import Gender from '../model/Gender'
+import { setValue } from 'src/Components/field';
 
 export interface NameProps {
   gender: Gender
@@ -23,17 +23,21 @@ export const Name = ({
   const placeholder = `فلان${teh} العلاني${teh}`
 
   return (
-    <>
-      <Label htmlFor="name">{`${admittor ? 'و اقر انا ' : ''}${title}`}</Label>
-      <Input
-        type="text"
-        id="name"
-        name="name"
-        placeholder={placeholder}
-        value={value}
-        onChange={setValue(onChange)}
-        required
-      />
-    </>
+    <FormGroup row>
+      <Label className="Label" for="name" sm={2}>{`${
+        admittor ? 'و اقر انا ' : ''
+      }${title}`}</Label>
+      <Col sm={10}>
+        <Input
+          type="text"
+          id="name"
+          name="name"
+          placeholder={placeholder}
+          value={value}
+          onChange={setValue(onChange)}
+          required
+        />
+      </Col>
+    </FormGroup>
   )
 }

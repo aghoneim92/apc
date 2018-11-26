@@ -3,15 +3,6 @@
   justify-content: center;
 }
 
-.NewPatientForm {
-  text-align: start;
-  padding: 2em;
-  padding-top: 0;
-  min-width: 50%;
-  max-width: 700px;
-  font-size: 1.5em;
-}
-
 .Footer {
   display: none;
 }
@@ -42,4 +33,8 @@
   display: flex;
   justify-content: center;
   margin-top: 1em;
+}
+
+.Label {
+  padding-top: 0;
 }

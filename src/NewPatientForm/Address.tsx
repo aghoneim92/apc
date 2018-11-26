@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { FieldProps, ChangeHandler } from './fields'
+import { FieldProps, ChangeHandler } from 'src/Components/field'
 import { FormGroup, Label } from 'reactstrap'
 
 const setValue = (onChange: ChangeHandler) => ({
@@ -8,10 +8,8 @@ const setValue = (onChange: ChangeHandler) => ({
 }: React.ChangeEvent<HTMLTextAreaElement>) => onChange(value)
 
 export const Address = ({ value, onChange }: FieldProps) => (
-  <FormGroup className="AddressInput">
-    <Label className="AddressInput-label" for="address">
-      محل الإقامة
-    </Label>
+  <FormGroup>
+    <Label for="address">محل الإقامة</Label>
     <textarea
       id="address"
       name="address"

@@ -2,9 +2,11 @@ import { createStore, Action } from 'redux'
 import Actions from './actions'
 import State from './model/State'
 import AdmissionRequestPersistenceService from './service/AdmissionRequestPersistenceService'
+import AdmissionPeristenceService from './service/AdmissionPersistenceService'
 
 const initialState: State = {
   admissionRequests: AdmissionRequestPersistenceService.loadAll(),
+  admissions: AdmissionPeristenceService.loadAll(),
 }
 
 interface ActionObject extends Action<Actions> {
@@ -19,16 +21,15 @@ const rootReducer = (state = initialState, action: ActionObject): State => {
         ...state,
         admissionRequests: state.admissionRequests.concat([payload]),
       }
-    case Actions.START_ADMISSION:
-      return { ...state, currentAdmission: payload }
     case Actions.UPDATE_ADMISSION:
-      const { currentAdmission } = state
-
-      if (currentAdmission) {
-        return { ...state, currentAdmission: payload }
+      return {
+        ...state,
+        admissionRequests: state.admissionRequests.map(req =>
+          req.patient.id === payload.patient.id ? payload : req,
+        ),
       }
-
-      return state
+    case Actions.ADMIT_PATIENT:
+      return { ...state, admissions: state.admissions.concat([payload]) }
     default:
       return state
   }
