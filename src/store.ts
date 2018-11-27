@@ -7,6 +7,7 @@ import AdmissionPeristenceService from './service/AdmissionPersistenceService'
 const initialState: State = {
   admissionRequests: AdmissionRequestPersistenceService.loadAll(),
   admissions: AdmissionPeristenceService.loadAll(),
+  treatmentPlans: {},
 }
 
 interface ActionObject extends Action<Actions> {
@@ -30,6 +31,17 @@ const rootReducer = (state = initialState, action: ActionObject): State => {
       }
     case Actions.ADMIT_PATIENT:
       return { ...state, admissions: state.admissions.concat([payload]) }
+    case Actions.ADD_TO_PLAN:
+      const { id, plan } = payload
+      const { treatmentPlans } = state
+
+      return {
+        ...state,
+        treatmentPlans: {
+          ...treatmentPlans,
+          [id]: (treatmentPlans[id] || []).concat([plan]),
+        },
+      }
     default:
       return state
   }

@@ -6,30 +6,47 @@ import CardText from 'reactstrap/lib/CardText'
 import CardTitle from 'reactstrap/lib/CardTitle'
 import Admission from 'src/model/Admission'
 import State from 'src/model/State'
+import Button from 'reactstrap/lib/Button'
+import { RouteComponentProps } from 'react-router'
+import { History } from 'history'
 
 interface StateProps {
   admissions: Admission[]
 }
 
-const AllPatients = ({ admissions }: StateProps) => (
-  <section>
-    {admissions.map(
-      ({ patient: { id, name, dateOfEntry, address }, law, doctorName }) => (
-        <Card key={id}>
-          <CardBody>
-            <CardTitle>{name}</CardTitle>
-            <CardText>رقم القيد : {id}</CardText>
-            <CardText>رقم الغرفة: ٥ تاريخ الدخول : {dateOfEntry}</CardText>
-            <CardText>العنوان : {address}</CardText>
-            <CardText>مادة الدخول : {law.toLocaleString('ar-EG')}</CardText>
-            <CardText>تليفون</CardText>
-            <CardText>الاستشاري : {doctorName}</CardText>
-          </CardBody>
-        </Card>
-      ),
-    )}
-  </section>
-)
+interface Props extends StateProps, RouteComponentProps {}
+
+const showTreatmentPlan = (history: History) => (id: string) => () => {
+  history.push(`/treatmentPlan?patientId=${id}`)
+}
+
+const AllPatients = ({ admissions, history }: Props) => {
+  const showPlan = showTreatmentPlan(history)
+  return (
+    <section>
+      {admissions.map(
+        ({
+          patient: { id, name, dateOfEntry, address, phone },
+          law,
+          doctorName,
+        }) => (
+          <Card key={id}>
+            <CardBody>
+              <CardTitle>{name}</CardTitle>
+              <CardText>رقم القيد : {id}</CardText>
+              <CardText>رقم الغرفة: ٥ تاريخ الدخول : {dateOfEntry}</CardText>
+              <CardText>العنوان : {address}</CardText>
+              <CardText>مادة الدخول : {law.toLocaleString('ar-EG')}</CardText>
+              <CardText>تليفون : {phone}</CardText>
+              <CardText>الاستشاري : {doctorName}</CardText>
+              <Button onClick={showPlan(id)}>الخطة العلاجية</Button>
+            </CardBody>
+          </Card>
+        ),
+      )}
+    </section>
+  )
+}
 
 const mapStateToProps = ({ admissions }: State): StateProps => ({ admissions })
 

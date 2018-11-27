@@ -3,7 +3,6 @@ import { Component } from 'react'
 import { Form, Button } from 'reactstrap'
 
 import Admission from 'src/model/Admission'
-import AdmissionLaw from 'src/model/AdmissionLaw'
 import Law from './AdmissionLaw'
 import { connect } from 'react-redux'
 import State from 'src/model/State'
@@ -11,8 +10,9 @@ import Actions from 'src/actions'
 import { RouteComponentProps } from 'react-router'
 import Diagnosis from './Diagnosis'
 import ReportInput from './ReportInput'
-import Report from 'src/model/Report'
 import AdmissionPeristenceService from 'src/service/AdmissionPersistenceService'
+import { DoctorName } from './fields'
+import findPatientId from 'src/findPatientId';
 
 const AdmissionDate = () => (
   <div>تاريخ الدخول : {new Date().toLocaleDateString('ar-EG')}</div>
@@ -41,38 +41,21 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps, RouteComponentProps {}
 
 class StartAdmission extends Component<Props> {
-  changeAdmissionLaw = (law: AdmissionLaw) => {
+  changeField = (field: string) => (value: any) => {
     const { changeAdmission, currentAdmission } = this.props
 
     if (currentAdmission) {
       changeAdmission({
         ...currentAdmission,
-        law,
+        [field]: value,
       })
     }
   }
 
-  changeDiagnosis = (diagnosis: string) => {
-    const { changeAdmission, currentAdmission } = this.props
-
-    if (currentAdmission) {
-      changeAdmission({
-        ...currentAdmission,
-        diagnosis,
-      })
-    }
-  }
-
-  changeReport = (report: Report) => {
-    const { changeAdmission, currentAdmission } = this.props
-
-    if (currentAdmission) {
-      changeAdmission({
-        ...currentAdmission,
-        initReport: report,
-      })
-    }
-  }
+  changeAdmissionLaw = this.changeField('law')
+  changeDiagnosis = this.changeField('diagnosis')
+  changeReport = this.changeField('initReport')
+  changeDoctorName = this.changeField('doctorName')
 
   doAdmit = () => {
     const { currentAdmission } = this.props
@@ -88,6 +71,7 @@ class StartAdmission extends Component<Props> {
       changeAdmissionLaw,
       changeDiagnosis,
       changeReport,
+      changeDoctorName,
       doAdmit,
     } = this
 
@@ -100,6 +84,7 @@ class StartAdmission extends Component<Props> {
       patient: { name },
       diagnosis,
       initReport,
+      doctorName,
     } = currentAdmission
 
     return (
@@ -107,6 +92,7 @@ class StartAdmission extends Component<Props> {
         <h2>{name}</h2>
         <AdmissionDate />
         <Law value={law} onChange={changeAdmissionLaw} />
+        <DoctorName value={doctorName} onChange={changeDoctorName} />
         <Diagnosis value={diagnosis} onChange={changeDiagnosis} />
         <ReportInput value={initReport} onChange={changeReport} />
         <Button onClick={doAdmit}>تسجيل دخول المريض</Button>
@@ -115,12 +101,6 @@ class StartAdmission extends Component<Props> {
   }
 }
 
-const findPatientId = (search: string) => {
-  const arr = search.replace('?', '').split('=')
-  const patId = arr.indexOf('patientId')
-
-  return arr[patId + 1]
-}
 
 const mapStateToProps = (
   { admissionRequests }: State,

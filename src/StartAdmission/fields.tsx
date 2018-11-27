@@ -4,6 +4,7 @@ import { FormGroup, Label, Input } from 'reactstrap'
 import { checkbox } from 'src/Components/checkbox'
 import { textarea } from 'src/Components/textarea'
 import { AdmissionMethod } from 'src/model/Report'
+import field from 'src/Components/field'
 
 export const StrongSymptoms = textarea({
   name: 'strongSymptoms',
@@ -30,6 +31,8 @@ export const PatientAgrees = checkbox('patientAgrees')(
   'قبول المريض الدخول من عدمه',
 )
 export const NeedsECT = checkbox('needsECT')('يحتاج المريض للعلاج الكهربائي')
+
+export const DoctorName = field('doctorName', 'اسم الطبيب المعالج', 4)
 
 const labels = ['بالطرق العادية', 'مادة ١٧', 'مادة ١٨']
 

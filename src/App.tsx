@@ -37,7 +37,7 @@ class App extends Component<RouteComponentProps> {
         path: 'patients',
         onClick: showAllPatients,
         label: 'كل المرضى',
-      },
+      }
     ]
   }
 
