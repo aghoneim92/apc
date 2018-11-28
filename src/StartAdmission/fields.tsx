@@ -32,7 +32,7 @@ export const PatientAgrees = checkbox('patientAgrees')(
 )
 export const NeedsECT = checkbox('needsECT')('يحتاج المريض للعلاج الكهربائي')
 
-export const DoctorName = field('doctorName', 'اسم الطبيب المعالج', 4)
+export const DoctorName = field('doctorName', 'اسم الطبيب المعالج', 3)
 
 const labels = ['بالطرق العادية', 'مادة ١٧', 'مادة ١٨']
 

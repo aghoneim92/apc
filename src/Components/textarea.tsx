@@ -18,9 +18,9 @@ export const textarea = ({
   name,
   label,
   rows = 4,
-  cols = 50,
+  cols = 40,
 }: TextareaConfig) => ({ value, onChange }: TextareaProps) => (
-  <FormGroup>
+  <FormGroup style={{ display: 'flex', alignItems: 'center' }}>
     <Label for={name}>{label}</Label>
     <textarea
       id={name}
@@ -29,6 +29,7 @@ export const textarea = ({
       cols={cols}
       value={value}
       onChange={setValue(onChange)}
+      style={{ marginInlineStart: '1em' }}
     />
   </FormGroup>
 )
